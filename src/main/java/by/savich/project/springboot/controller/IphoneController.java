@@ -55,4 +55,19 @@ public class IphoneController {
     public List<Iphone> findIphoneByRefTrueAndModel(@PathVariable(value = "model") String model) {
         return iphoneService.getIphoneByRefTrueAndModel(model);
     }
+
+//    @GetMapping("/findModelThan/{model}")
+//    public List<Iphone> getIphoneByModelAndReleaseDateLessThan(@PathVariable(value = "model") String model, int releaseDate) {
+//        return iphoneService.getIphoneByModelAndReleaseDateLessThan(model, releaseDate);
+//    }
+
+    @GetMapping("/findModelThan")
+    public List<Iphone> getIphoneByReleaseDateLessThan(int releaseDate) {
+        return iphoneService.getIphoneByReleaseDateLessThan(releaseDate);
+    }
+
+    @GetMapping("/findModelThan2")
+    public List<Iphone> getIphoneByReleaseDateLessThan2(int releaseDate) {
+        return iphoneService.getIphoneByReleaseDateLessThan2(releaseDate);
+    }
 }

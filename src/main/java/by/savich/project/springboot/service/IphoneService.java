@@ -17,6 +17,7 @@ public class IphoneService {
     private final Random random = new Random();
     private final IphoneRepository iphoneRepository;
 
+
     public IphoneService(IphoneRepository iphoneRepository) {
         this.iphoneRepository = iphoneRepository;
     }
@@ -25,6 +26,7 @@ public class IphoneService {
         Iphone iphone = new Iphone();
         iphone.setModel(IPHONES.get(random.nextInt(IPHONES.size())));
         iphone.setRef(random.nextBoolean());
+        iphone.setReleaseDate(random.nextInt(2022));
         return iphoneRepository.save(iphone);
     }
 
@@ -56,5 +58,17 @@ public class IphoneService {
 
     public List<Iphone> getIphoneByRefTrueAndModel(String model) {
         return iphoneRepository.findIphoneByRefTrueAndModel(model);
+    }
+
+//    public List<Iphone> getIphoneByModelAndReleaseDateLessThan(String model, int releaseDate) {
+//        return iphoneRepository.findIphoneByModelAndReleaseDateLessThan(model, releaseDate);
+//    }
+
+public List<Iphone> getIphoneByReleaseDateLessThan(int releaseDate) {
+        return iphoneRepository.findIphoneByReleaseDateLessThan(releaseDate);
+    }
+
+    public List<Iphone> getIphoneByReleaseDateLessThan2(int releaseDate) {
+        return iphoneRepository.findIphoneByReleaseDateLessThan2(releaseDate);
     }
 }

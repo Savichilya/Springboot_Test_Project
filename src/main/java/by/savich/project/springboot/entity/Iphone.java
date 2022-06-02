@@ -11,6 +11,8 @@ public class Iphone {
     private int id;
     private String model;
     private boolean ref;
+    private int releaseDate;
+
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -38,4 +40,11 @@ public class Iphone {
         this.ref = ref;
     }
 
+    public int getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(int releaseDate) {
+        this.releaseDate = releaseDate;
+    }
 }
