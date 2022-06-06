@@ -20,4 +20,5 @@ public interface IphoneRepository extends CrudRepository<Iphone, Integer> {
 
     @Query(value = "SELECT * FROM iphone WHERE release_date >:releaseDate", nativeQuery = true)
     List<Iphone> findIphoneByReleaseDateLessThan2(@Param("releaseDate") int releaseDate);
+
 }
