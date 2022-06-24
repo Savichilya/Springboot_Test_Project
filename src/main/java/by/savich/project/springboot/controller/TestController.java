@@ -12,9 +12,9 @@ public class TestController {
         this.ts = ts;
     }
 
-    @GetMapping("/revers")
-    public StringBuilder revers() {
-        return ts.revers(new StringBuilder("cat"));
+    @GetMapping("/reverse")
+    public String reverse() {
+        return ts.reverse("cat");
     }
 
 

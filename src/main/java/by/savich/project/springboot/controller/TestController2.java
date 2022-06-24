@@ -14,8 +14,8 @@ public class TestController2 {
         this.ts = ts;
     }
 
-    @GetMapping("/revers")
-    public StringBuilder revers() {
-        return ts.revers(new StringBuilder("dog"));
+    @GetMapping("/reverse")
+    public String revers() {
+        return ts.reverse("dog");
     }
 }
