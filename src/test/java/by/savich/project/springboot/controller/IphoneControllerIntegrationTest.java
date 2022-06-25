@@ -134,6 +134,7 @@ class IphoneControllerIntegrationTest {
     void shouldCallGetreversEndpointWithCorrectParameters() {
         String result = this.restTemplate.getForObject(host + "/test/reverse", String.class);
         assertThat(result).isEqualTo("tac");
+        System.out.println();
     }
 
 
