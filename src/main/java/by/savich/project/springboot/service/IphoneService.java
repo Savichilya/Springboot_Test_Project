@@ -1,13 +1,12 @@
 package by.savich.project.springboot.service;
 
 import by.savich.project.springboot.entity.Iphone;
+import by.savich.project.springboot.exception.IphonetNotFoundException;
 import by.savich.project.springboot.repository.IphoneRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class IphoneService {
@@ -35,10 +34,8 @@ public class IphoneService {
     }
 
     public Iphone getIphoneById(int id) {
-        if (iphoneRepository.findById(id) == null) {
-            throw new RuntimeException("No iphone with id " + id + " was found!");
-        }
-        return iphoneRepository.findById(id).get();
+        return iphoneRepository.findById(id).orElseThrow(() ->
+                new IphonetNotFoundException("Secret not found, data is incorrect"));
     }
 
     public List<Iphone> getAllIphones() {

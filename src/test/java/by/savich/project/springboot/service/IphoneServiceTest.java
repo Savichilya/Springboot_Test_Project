@@ -2,11 +2,9 @@ package by.savich.project.springboot.service;
 
 import by.savich.project.springboot.entity.Iphone;
 import by.savich.project.springboot.repository.IphoneRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
 import javax.security.auth.Subject;
