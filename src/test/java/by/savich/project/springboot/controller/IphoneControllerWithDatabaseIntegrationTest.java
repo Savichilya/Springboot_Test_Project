@@ -44,21 +44,46 @@ class IphoneControllerWithDatabaseIntegrationTest {
         host = "http://localhost:" + port;
     }
 
+    @BeforeEach
+    void clearDatabase() {
+        iphoneRepository.deleteAll();
+    }
+
     @Test
-    void shouldGenerateRandomIphone() throws InterruptedException{
+    void shouldGenerateRandomIphone() throws InterruptedException {
+
         Iphone iphone = this.restTemplate.getForObject(host + "/iphone/addIphone", Iphone.class);
+
+        iphoneRepository.save(iphone);
+
+        int id=iphone.getId();
+        Iphone iphone1=iphoneRepository.findById(id).get();
 
         assertThat(IPHONES).contains(iphone.getModel());
         assertThat(iphone.getReleaseDate()).isNotNull();
         assertThat(iphone.getReleaseDate()).isPositive();
         assertThat(iphone.getReleaseDate()).isGreaterThan(1);
+
+        assertThat(iphone1.getId()).isEqualTo(iphone.getId());
+        assertThat(iphone1.getModel()).isEqualTo(iphone.getModel());
+        assertThat(iphone1.getReleaseDate()).isEqualTo(iphone.getReleaseDate());
+        assertThat(iphone1.isRef()).isEqualTo(iphone.isRef());
+
+
     }
 
     @Test
     void shouldGetIphoneById() {
         Iphone iphone = new Iphone();
+        iphone.setModel("SE");
+        iphone.setRef(true);
+        iphone.setReleaseDate(2017);
 
-        Iphone result = this.restTemplate.getForObject(host + "/iphone/get/4", Iphone.class);
+        iphoneRepository.save(iphone);
+
+        int id = iphone.getId();
+
+        Iphone result = this.restTemplate.getForObject(host + "/iphone/get/" + id, Iphone.class);
 
         assertThat(result).isEqualTo(iphone);
     }
@@ -67,8 +92,38 @@ class IphoneControllerWithDatabaseIntegrationTest {
     void shouldGetAllIphones() {
         List<Iphone> iphoneList = new ArrayList<>();
 
+        Iphone iphone1 = new Iphone();
+        iphone1.setModel("SE");
+        iphone1.setRef(false);
+        iphone1.setReleaseDate(2017);
+        Iphone iphone2 = new Iphone();
+        iphone2.setModel("SE");
+        iphone2.setRef(false);
+        iphone2.setReleaseDate(2017);
+        Iphone iphone3 = new Iphone();
+        iphone3.setModel("7");
+        iphone3.setRef(true);
+        iphone3.setReleaseDate(2016);
+        Iphone iphone4 = new Iphone();
+        iphone4.setModel("SE");
+        iphone4.setRef(true);
+        iphone4.setReleaseDate(2017);
+        Iphone iphone5 = new Iphone();
+        iphone5.setModel("8");
+        iphone5.setRef(false);
+        iphone5.setReleaseDate(2018);
+
+        iphoneList.add(iphone1);
+        iphoneList.add(iphone2);
+        iphoneList.add(iphone3);
+        iphoneList.add(iphone4);
+        iphoneList.add(iphone5);
+
+        iphoneRepository.saveAll(iphoneList);
+
         List<Iphone> resultList = this.restTemplate.exchange(host + "/iphone", HttpMethod.GET,
-                null, new ParameterizedTypeReference<List<Iphone>>() {}).getBody();
+                null, new ParameterizedTypeReference<List<Iphone>>() {
+                }).getBody();
 
         assertThat(resultList).isEqualTo(iphoneList);
     }
@@ -163,10 +218,24 @@ class IphoneControllerWithDatabaseIntegrationTest {
     @Test
     void shouldUpdateIphone() {
         Iphone iphone = new Iphone();
+        iphoneRepository.save(iphone);
+
+        iphone.setModel("6");
+        iphone.setRef(true);
+        iphone.setReleaseDate(2016);
+
+        int id=iphone.getId();
         HttpEntity<Iphone> httpEntity = new HttpEntity<>(iphone);
         ResponseEntity<Void> response = this.restTemplate.exchange(host + "/iphone/update",
                 HttpMethod.PUT, httpEntity, Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        Iphone iphone1=iphoneRepository.findById(id).get();
+
+        assertThat(iphone1.getId()).isEqualTo(iphone.getId());
+        assertThat(iphone1.getModel()).isEqualTo(iphone.getModel());
+        assertThat(iphone1.getReleaseDate()).isEqualTo(iphone.getReleaseDate());
+        assertThat(iphone1.isRef()).isEqualTo(iphone.isRef());
     }
 
     @Test
@@ -178,8 +247,10 @@ class IphoneControllerWithDatabaseIntegrationTest {
         iphone.setReleaseDate(2017);
         iphoneRepository.save(iphone);
 
+        int id = iphone.getId();
+
         HttpEntity<Iphone> httpEntity = new HttpEntity<>(iphone);
-        ResponseEntity<Void> response = this.restTemplate.exchange(host + "/iphone/delete/1",
+        ResponseEntity<Void> response = this.restTemplate.exchange(host + "/iphone/delete/"+id,
                 HttpMethod.DELETE, httpEntity, Void.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);

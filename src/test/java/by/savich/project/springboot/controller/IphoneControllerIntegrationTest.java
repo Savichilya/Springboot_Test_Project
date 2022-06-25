@@ -55,6 +55,8 @@ class IphoneControllerIntegrationTest {
         assertThat(iphone.getReleaseDate()).isNotNull();
         assertThat(iphone.getReleaseDate()).isPositive();
         assertThat(iphone.getReleaseDate()).isGreaterThan(1);
+
+        verify(iphoneRepository).save(iphone);
     }
 
     @Test
@@ -75,9 +77,9 @@ class IphoneControllerIntegrationTest {
 
         when(iphoneRepository.findAll()).thenReturn(iphoneList);
 
-        ResponseEntity<List<Iphone>> resultList = this.restTemplate.exchange(host + "/iphone", HttpMethod.GET,
+        List<Iphone> resultList = this.restTemplate.exchange(host + "/iphone", HttpMethod.GET,
                 null, new ParameterizedTypeReference<List<Iphone>>() {
-                });
+                }).getBody();
 
         assertThat(resultList).isEqualTo(iphoneList);
     }
@@ -120,10 +122,8 @@ class IphoneControllerIntegrationTest {
 
     @Test
     void shouldDeleteIphone() {
-        Iphone iphone = new Iphone();
-        HttpEntity<Iphone> httpEntity = new HttpEntity<>(iphone);
         ResponseEntity<Void> response = this.restTemplate.exchange(host + "/iphone/delete/1",
-                HttpMethod.DELETE, httpEntity, Void.class);
+                HttpMethod.DELETE,null, Void.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 

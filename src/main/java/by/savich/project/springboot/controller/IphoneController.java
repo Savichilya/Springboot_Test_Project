@@ -57,7 +57,7 @@ public class IphoneController {
     }
 
     @GetMapping("/findModelThan")
-    public List<Iphone> getIphoneByReleaseDateLessThan(int releaseDate) {
+    public List<Iphone> getIphoneByReleaseDateLessThan(@RequestParam int releaseDate) {
         return iphoneService.getIphoneByReleaseDateLessThan(releaseDate);
     }
 
