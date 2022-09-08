@@ -1,7 +1,7 @@
 package by.savich.project.springboot.service;
 
 import by.savich.project.springboot.entity.Iphone;
-import by.savich.project.springboot.exception.IphonetNotFoundException;
+import by.savich.project.springboot.exception.IphoneNotFoundException;
 import by.savich.project.springboot.repository.IphoneRepository;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +35,7 @@ public class IphoneService {
 
     public Iphone getIphoneById(int id) {
         return iphoneRepository.findById(id).orElseThrow(() ->
-                new IphonetNotFoundException("Secret not found, data is incorrect"));
+                new IphoneNotFoundException("Iphone not found, id is incorrect"));
     }
 
     public List<Iphone> getAllIphones() {
