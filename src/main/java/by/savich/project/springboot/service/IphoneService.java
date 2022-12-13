@@ -12,7 +12,7 @@ import java.util.Random;
 @Service
 public class IphoneService {
 
-    private static final List<String> IPHONES = Arrays.asList("4", "4s", "5", "5s", "6", "6s", "7", "7s", "8", "8s",
+    public static final List<String> IPHONES = Arrays.asList("4", "4s", "5", "5s", "6", "6s", "7", "7s", "8", "8s",
             "SE", "SE2020", "SE2022");
     private final Random random = new Random();
     private final IphoneRepository iphoneRepository;
@@ -35,6 +35,9 @@ public class IphoneService {
     }
 
     public Iphone getIphoneById(int id) {
+        if (iphoneRepository.findById(id) == null) {
+            throw new RuntimeException("No iphone with id " + id + " was found!");
+        }
         return iphoneRepository.findById(id).get();
     }
 
@@ -60,11 +63,7 @@ public class IphoneService {
         return iphoneRepository.findIphoneByRefTrueAndModel(model);
     }
 
-//    public List<Iphone> getIphoneByModelAndReleaseDateLessThan(String model, int releaseDate) {
-//        return iphoneRepository.findIphoneByModelAndReleaseDateLessThan(model, releaseDate);
-//    }
-
-public List<Iphone> getIphoneByReleaseDateLessThan(int releaseDate) {
+    public List<Iphone> getIphoneByReleaseDateLessThan(int releaseDate) {
         return iphoneRepository.findIphoneByReleaseDateLessThan(releaseDate);
     }
 
