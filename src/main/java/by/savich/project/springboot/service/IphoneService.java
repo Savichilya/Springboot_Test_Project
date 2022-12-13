@@ -1,18 +1,17 @@
 package by.savich.project.springboot.service;
 
 import by.savich.project.springboot.entity.Iphone;
+import by.savich.project.springboot.exception.IphoneNotFoundException;
 import by.savich.project.springboot.repository.IphoneRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class IphoneService {
 
-    private static final List<String> IPHONES = Arrays.asList("4", "4s", "5", "5s", "6", "6s", "7", "7s", "8", "8s",
+    public static final List<String> IPHONES = Arrays.asList("4", "4s", "5", "5s", "6", "6s", "7", "7s", "8", "8s",
             "SE", "SE2020", "SE2022");
     private final Random random = new Random();
     private final IphoneRepository iphoneRepository;
@@ -35,7 +34,8 @@ public class IphoneService {
     }
 
     public Iphone getIphoneById(int id) {
-        return iphoneRepository.findById(id).get();
+        return iphoneRepository.findById(id).orElseThrow(() ->
+                new IphoneNotFoundException("Iphone not found, id is incorrect"));
     }
 
     public List<Iphone> getAllIphones() {
@@ -60,11 +60,7 @@ public class IphoneService {
         return iphoneRepository.findIphoneByRefTrueAndModel(model);
     }
 
-//    public List<Iphone> getIphoneByModelAndReleaseDateLessThan(String model, int releaseDate) {
-//        return iphoneRepository.findIphoneByModelAndReleaseDateLessThan(model, releaseDate);
-//    }
-
-public List<Iphone> getIphoneByReleaseDateLessThan(int releaseDate) {
+    public List<Iphone> getIphoneByReleaseDateLessThan(int releaseDate) {
         return iphoneRepository.findIphoneByReleaseDateLessThan(releaseDate);
     }
 

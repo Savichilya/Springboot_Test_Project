@@ -12,9 +12,6 @@ public interface IphoneRepository extends CrudRepository<Iphone, Integer> {
 
     List<Iphone> findIphoneByRefTrueAndModel(String model);
 
-//    @Query("SELECT i FROM Iphone i where i.releaseDate < :releaseDate")
-//    List<Iphone> findIphoneByModelAndReleaseDateLessThan(String model, @Param("releaseDate") int releaseDate);
-
     @Query("SELECT i FROM Iphone i where i.releaseDate > :releaseDate")
     List<Iphone> findIphoneByReleaseDateLessThan(@Param("releaseDate") int releaseDate);
 
